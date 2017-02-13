@@ -12,7 +12,7 @@ class Home extends MY_Controller {
 		// $this->assets->addCss('dist/css/AdminLTE.min.css');
 		// $this->assets->addCss('dist/css/skins/_all-skins.min.css');
 		$this->load->library('Hash');
-		// var_dump($this->hash->createUUID());die();
+		echo($this->hash->hashPassword("12345"));die();
 		$this->template
 				->setPartial('home_v')
 				->frontEndTemplate();

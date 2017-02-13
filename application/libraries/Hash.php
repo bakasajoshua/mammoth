@@ -17,6 +17,9 @@ class Hash
 		return Uuid::uuid4();
 	}
 
+	function hashPassword($password){
+		return password_hash($password, PASSWORD_BCRYPT, array("cost" => 10));
+	}
 }
 
 /* End of file Hash.php */

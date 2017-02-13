@@ -612,5 +612,9 @@
 <!-- AdminLTE App -->
 <script src="<?= @$this->config->item('assets_url'); ?>dist/js/app.min.js"></script>
 <?= @$page_js; ?>
+
+<?php if(isset($javascript_file)) { ?>
+    <?php $this->load->view($javascript_file, $javascript_data); ?>
+  <?php } ?>
 </body>
 </html>
