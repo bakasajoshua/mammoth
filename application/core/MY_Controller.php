@@ -6,6 +6,7 @@ class MY_Controller extends MX_Controller {
 		parent::__construct();
 
 		$this->load->module('Template');
+		$this->load->helper('form');
 	}
 }
 

@@ -14,7 +14,7 @@ class Hash
 
 	public function createUUID()
 	{
-		return Uuid::uuid4();
+		return Uuid::uuid4()->toString();
 	}
 
 	function hashPassword($password){
