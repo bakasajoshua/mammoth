@@ -13,6 +13,7 @@
   <?= @$page_css; ?>
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>dist/css/skins/_all-skins.min.css">
+  <?= @$page_css; ?>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
