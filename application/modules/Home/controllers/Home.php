@@ -8,9 +8,11 @@ class Home extends MY_Controller {
 	
 	public function index()
 	{
-		$this->assets->addCss('sample.css');
-
-		$this->assets->addJs('sample.js');
+		// $this->assets->addCss('bootstrap/css/bootstrap.min.css');
+		// $this->assets->addCss('dist/css/AdminLTE.min.css');
+		// $this->assets->addCss('dist/css/skins/_all-skins.min.css');
+		$this->load->library('Hash');
+		// var_dump($this->hash->createUUID());die();
 		$this->template
 				->setPartial('home_v')
 				->frontEndTemplate();
