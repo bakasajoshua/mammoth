@@ -15,10 +15,14 @@ class Auth extends MX_Controller {
 	}
 
 	public function userLogin(){
-
-		$user_exist = $this->auth_m->check_user_exist();
-
-		if($user_exist){
+		$user = $this->auth_m->check_user_exist();
+		$this->load->library('Hash');
+		if($user){
+			if (password_verify($this->input->post('password'), $user->password)) {
+				$access_level = $user->access_level;
+			}else{
+				echo "user not found";
+			}die;
 			$user_log = $this->auth_m->check_user_authentic();
 			$accesslevel = $user_log['access_level'];
 			if($accesslevel == 'Manager'){
