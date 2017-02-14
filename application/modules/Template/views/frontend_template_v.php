@@ -10,21 +10,10 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>bootstrap/css/bootstrap.min.css">
+  <?= @$page_css; ?>
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>dist/css/skins/_all-skins.min.css">
   <?= @$page_css; ?>
-  <!-- To be removed once we sort this with Chris -->
-  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"> -->
-  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/froala_editor.css">
-  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/froala_style.css">
-  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/code_view.css">
-  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/image_manager.css">
-  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/image.css">
-  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/table.css">
-  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/video.css">
-
-  <!-- jQuery 2.2.3 -->
-  <script src="<?= @$this->config->item('assets_url'); ?>plugins/jQuery/jquery-2.2.3.min.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -36,7 +25,7 @@
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>LT</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Admin</b>LTE</span>
+      <span class="logo-lg"><b><?php echo $pagetitle; ?></b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -135,13 +124,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="<?= @$this->config->item('assets_url'); ?>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="<?= @$this->config->item('assets_url'); ?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
                   Alexander Pierce - Web Developer
@@ -192,7 +181,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="<?= @$this->config->item('assets_url'); ?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>Alexander Pierce</p>
@@ -391,12 +380,7 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <h1>
-        <?= @$pagetitle; ?>
-        <small><?= @$pagedescription; ?></small>
-      </h1>
-    </section>
+    
 
     <!-- Main content -->
     <section class="content">
@@ -613,6 +597,8 @@
 </div>
 <!-- ./wrapper -->
 
+<!-- jQuery 2.2.3 -->
+<script src="<?= @$this->config->item('assets_url'); ?>plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?= @$this->config->item('assets_url'); ?>bootstrap/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
@@ -623,5 +609,8 @@
 <script src="<?= @$this->config->item('assets_url'); ?>dist/js/app.min.js"></script>
 <?= @$page_js; ?>
 
+<?php if(isset($javascript_file)) { ?>
+    <?php $this->load->view($javascript_file, $javascript_data); ?>
+  <?php } ?>
 </body>
 </html>

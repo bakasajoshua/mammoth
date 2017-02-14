@@ -14,9 +14,12 @@ class Hash
 
 	public function createUUID()
 	{
-		return Uuid::uuid4();
+		return Uuid::uuid4()->toString();
 	}
 
+	function hashPassword($password){
+		return password_hash($password, PASSWORD_BCRYPT, array("cost" => 10));
+	}
 }
 
 /* End of file Hash.php */
