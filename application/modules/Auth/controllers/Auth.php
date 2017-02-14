@@ -19,31 +19,71 @@ class Auth extends MX_Controller {
 		$this->load->library('Hash');
 		if($user){
 			if (password_verify($this->input->post('password'), $user->password)) {
+
+				$session_data = array(
+		                   'userid'         => $user ->userid , 
+		                   'uuid'    		=> $user ->uuid , 
+		                   'fulname'    	=> $user ->fulname , 
+		                   'email'    		=> $user ->email ,
+		                   'access_level'   => $user ->access_level ,
+		                   'dept_id'   		=> $user ->dept_id
+		        );
+
+				$this->set_session($session_data);
+
+
 				$access_level = $user->access_level;
-			}else{
-				echo "user not found";
-			}die;
-			$user_log = $this->auth_m->check_user_authentic();
-			$accesslevel = $user_log['access_level'];
-			if($accesslevel == 'Manager'){
-				echo "Manager";die();
+
+				if($accesslevel == 'Manager'){
+				//echo "Manager";die();
+				
 			}elseif ($accesslevel == 'Admin') {
-				echo "Admin";die();
+				
+				//echo "Admin";die();
 			}elseif ($accesslevel == 'Member') {
-				echo "Member";die();
+				
+				//echo "Member";die();
 			}
+
+			}else{
+				echo "user not found";die();
+			}
+			
 		}else{
-			echo "User does not exist";
+			echo "User does not exist";die();
 		}
 
 
 	}
 
 
+	private function set_session($session_data){
+      
+      $result = $this->db->query($sql);
+      $row = $result->row();
+       //echo "<pre>";print_r($result);die();
+       //echo $session_data['userid'];die();
+      $setting_session = array(
+                   'userid'       => $session_data['userid'] , 
+                   'uuid'       => $session_data['uuid'] , 
+                   'fulname'    => $session_data['fulname'] ,
+                   'email'    => $session_data['email'] ,
+                   'access_level'    => $session_data['access_level'] ,
+                   'dept_id'   => $session_data['dept_id'] ,
+                   'logged_in'  => 1
+      ); 
+      $sess = $this->auth_m->addsession($setting_session);
+      $this->session->set_userdata($setting_session);
+
+      //echo "<pre>";print_r($this->session->all_userdata());die();   
+        
+    }
+
+
 	public function logout()
     {
-        $sess_log = $this->session->userdata('userid');
-        $log = $this->auth_m->logoutadmin($sess_log);
+        $sess_log = $this->session->userdata('session_id');
+        $log = $this->auth_m->logoutuser($sess_log);
 
         $this->session->sess_destroy();
         redirect('/');

@@ -8,24 +8,32 @@ class Auth_m extends CI_Model {
 	}
 
 
-    public function logoutadmin($sess_log){
+    public function logoutuser($sess_log){
+    	$data['logged_in'] = 0;
+
+	    $this->db->where('session_id', $sess_log);
+	    $update = $this->db->update('usersessions', $data);
+
+
 	    $setting_session = array(
-	                   'userid'       => "" , 
-	                   'uuid'       => "" , 
-	                   'fulname'    => "" ,
-	                   'email'    => "" ,
-	                   'access_level'    => "" ,
-	                   'dept_id'   => "" ,
-	                   'logged_in'  => ""
+	                   'session_id'       => "" , 
+	                   'ip_address'       => "" , 
+	                   'user_agent'       => "" ,
+	                   'last_activity'    => "" ,
+	                   'user_data'        => "" ,
+	                   'userid'           => "" , 
+	                   'uuid'             => "" , 
+	                   'fulname'          => "" ,
+	                   'email'            => "" ,
+	                   'access_level'     => "" ,
+	                   'dept_id'          => "" ,
+	                   'logged_in'        => ""
 	    ); 
 
 	    $this->session->set_userdata($setting_session);
 
 
-	    //$data['status'] = 0;
-
-	    // $this->db->where('userid', $sess_log);
-	    // $update = $this->db->update('users', $data);
+	    
      }
 
 
@@ -113,34 +121,17 @@ class Auth_m extends CI_Model {
     }
 
 
-    private function set_session($session_data){
-      $sql = "SELECT * FROM users WHERE email = '". $session_data['email'] ."' LIMIT 1";
-      $result = $this->db->query($sql);
-      $row = $result->row();
-       //echo "<pre>";print_r($result);die();
-       //echo $session_data['userid'];die();
-      $setting_session = array(
-                   'userid'       => $session_data['userid'] , 
-                   'uuid'       => $session_data['uuid'] , 
-                   'fulname'    => $session_data['fulname'] ,
-                   'email'    => $session_data['email'] ,
-                   'access_level'    => $session_data['access_level'] ,
-                   'dept_id'   => $session_data['dept_id'] ,
-                   'logged_in'  => 1
-      ); 
+    private function addsession($session_data){
 
-      $this->session->set_userdata($setting_session);
-
-      echo "<pre>";print_r($setting_session);die();
-      
+      //echo "<pre>";print_r($session_data);die();
       $details = $this->session->all_userdata();
-       // $sql = "INSERT INTO usersessions (`session_id`,`ip_address`,`user_agent`,`last_activity`,`user_data`,`userid`,`fulname`,`email`,`access_level`,`dept_id`,`logged_in`) 
-       //         VALUES ('".$details['session_id']."', '".$details['ip_address']."','".$details['user_agent']."', 
-       //         '".$details['last_activity']."','1', '".$details['userid']."', '".$details['fulname']."', 
-       //         '".$details['email']."', '".$details['access_level']."', '".$details['dept_id']."', 
-       //         '".$details['logged_in']."') ";
+       $sql = "INSERT INTO usersessions (`session_id`,`ip_address`,`user_agent`,`last_activity`,`user_data`,`userid`,`fulname`,`email`,`access_level`,`dept_id`,`logged_in`) 
+               VALUES ('".$details['session_id']."', '".$details['ip_address']."','".$details['user_agent']."', 
+               '".$details['last_activity']."','1', '".$details['userid']."', '".$details['fulname']."', 
+               '".$details['email']."', '".$details['access_level']."', '".$details['dept_id']."', 
+               '".$details['logged_in']."') ";
 
-    //$results = $this->db->query($sql);
+    $results = $this->db->query($sql);
         
     }
 
