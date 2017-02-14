@@ -41,6 +41,7 @@ class Auth_m extends CI_Model {
     {
         $email = $this->input->post('email');
 
+        $this->db->where('status', 1);
         $this->db->where('email', $email);
         $query = $this->db->get('users');
 
@@ -113,9 +114,9 @@ class Auth_m extends CI_Model {
     }
 
 
-    private function addsession($session_data){
+    public function addsession($session_data){
 
-      //echo "<pre>";print_r($session_data);die();
+      echo "<pre>";print_r($session_data);die();
       $details = $this->session->all_userdata();
        $sql = "INSERT INTO usersessions (`session_id`,`ip_address`,`user_agent`,`last_activity`,`user_data`,`userid`,`fulname`,`email`,`access_level`,`dept_id`,`logged_in`) 
                VALUES ('".$details['session_id']."', '".$details['ip_address']."','".$details['user_agent']."', 

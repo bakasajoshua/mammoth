@@ -34,15 +34,15 @@ class Auth extends MX_Controller {
 
 				$access_level = $user->access_level;
 
-				if($accesslevel == 'Manager'){
-				//echo "Manager";die();
+				if($access_level == 2){
+				redirect('Manager','refresh');
 				
-			}elseif ($accesslevel == 'Admin') {
+			}elseif ($access_level == 1) {
 				
-				//echo "Admin";die();
-			}elseif ($accesslevel == 'Member') {
+				redirect('User','refresh');
+			}elseif ($access_level == 3) {
 				
-				//echo "Member";die();
+				echo "Member";die();
 			}
 
 			}else{
@@ -58,9 +58,6 @@ class Auth extends MX_Controller {
 
 
 	private function set_session($session_data){
-      
-      $result = $this->db->query($sql);
-      $row = $result->row();
        //echo "<pre>";print_r($result);die();
        //echo $session_data['userid'];die();
       $setting_session = array(
@@ -72,7 +69,7 @@ class Auth extends MX_Controller {
                    'dept_id'   => $session_data['dept_id'] ,
                    'logged_in'  => 1
       ); 
-      $sess = $this->auth_m->addsession($setting_session);
+      // $sess = $this->auth_m->addsession($setting_session);
       $this->session->set_userdata($setting_session);
 
       //echo "<pre>";print_r($this->session->all_userdata());die();   
