@@ -15,7 +15,7 @@ class SendgridLib
 		$content = new SendGrid\Content("text/html", $view);
 		$mail = new SendGrid\Mail($from, $subject, $to, $content);
 
-		$apiKey = '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';
+		$apiKey = $this->ci->config->item('sendgrid_api_key');
 		$sg = new \SendGrid($apiKey);
 
 		$response = $sg->client->mail()->send()->post($mail);

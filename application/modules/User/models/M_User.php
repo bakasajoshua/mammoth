@@ -56,6 +56,13 @@ class M_User extends CI_Model {
 	function addUser($user){
 		return $this->db->insert('users', $user);
 	}
+
+	function findUserByUUID($uuid){
+		$this->db->where('uuid', $uuid);
+		$query = $this->db->get('users');
+
+		return $query->row();
+	}
 }
 
 /* End of file M_User.php */

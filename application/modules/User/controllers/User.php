@@ -44,12 +44,18 @@ class User extends MY_Controller {
 			$counter = 1;
 			foreach ($users as $user) {
 				$status = $user->status;
+				$activation = "";
+
+				$reset_password = "<a class = 'btn btn-sm btn-warning' href ='".base_url('User/resetPassword/')."$user->uuid'>Reset Password</a>";
+
 
 				$status_text = "";
 				if($status == 1){
 					$status_text = "<a class = 'label label-success'>Active</a>";
+					$activation = "<a class = 'btn btn-sm btn-danger' href = '".base_url('User/activation/')."$user->uuid'>Deactivate</a>";
 				}else{
 					$status_text = "<a class = 'label label-danger'>Inactive</a>";
+					$activation = "<a class = 'btn btn-sm btn-success' href = '".base_url('User/activation/')."$user->uuid'>Activate</a>";
 				}
 				$tableData[] = [
 					$counter,
@@ -57,7 +63,7 @@ class User extends MY_Controller {
 					$user->email,
 					$user->access_level,
 					$status_text,
-					''
+					$reset_password . " " . $activation
 				];
 
 				$counter++;
@@ -70,6 +76,7 @@ class User extends MY_Controller {
 
 		return $this->table->generate($tableData);
 	}
+
 
 	function add(){
 		$this->assets
@@ -131,10 +138,59 @@ class User extends MY_Controller {
 		}
 	}
 
-	function testMail(){
-		$this->load->library('SendgridLib');
+	function resetPassword($uuid){
+		$user = $this->M_User->findUserByUUID($uuid);
+		$this->load->helper('string');
+		$this->load->library('hash');
+		if ($user) {
+			$user_email = $user->email;
 
-		$this->sendgridlib->sendMail();
+			$newPassword = random_string('alnum', 6);
+			$hashedPassword = $this->hash->hashPassword($newPassword);
+
+			$updateData = new StdClass;
+
+			$updateData->password = $hashedPassword;
+			$this->db->where('uuid', $user->uuid);
+			$this->db->update('users', $updateData);
+
+			// send email notification
+			$data = [
+				'name'	=>	$user->fulname,
+				'password'	=>	$newPassword,
+				'emailaddress'	=>	$user->email
+			];
+
+			$email_view = $this->load->view('Template/account_created_v', $data, TRUE);
+			$subject = "Report Mammoth Password Changed";
+
+			$this->load->library('SendgridLib');
+			$this->sendgridlib->sendMail($subject, ['name'	=>	$user->fulname, 'email'	=>	$user->email], $email_view);
+
+			redirect('User','refresh');
+		}else{
+			show_404();
+		}
+	}
+
+	function activation($uuid){
+		$user = $this->M_User->findUserByUUID($uuid);
+		if ($user) {
+			$update_data = new StdClass;
+
+			if($user->status == 1){
+				$update_data->status = 0;
+			}else{
+				$update_data->status = 1;
+			}
+
+			$this->db->where('uuid', $uuid);
+			$this->db->update('users', $update_data);
+
+			redirect('User','refresh');
+		}else{
+			show_404();
+		}
 	}
 
 	// Ajax Data
