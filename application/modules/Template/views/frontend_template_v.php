@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>dist/css/skins/_all-skins.min.css">
   <?= @$page_css; ?>
   <!-- To be removed once we sort this with Chris -->
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css"> -->
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/froala_editor.css">
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/froala_style.css">
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/code_view.css">

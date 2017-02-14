@@ -26,8 +26,9 @@ class Members extends MY_Controller
 				->frontEndTemplate();
 	}
 
-	function get_write_page($report)
+	function get_write_page($report=null)
 	{
+		// echo $report;
 		$data = $this->members_model->get_report_details($report);
 		// $data['report'] = $this->members_model->get_report_details(true);
 		// $this->template
