@@ -7,5 +7,6 @@ class MY_Controller extends MX_Controller {
 
 		$this->load->module('Template');
 		$this->load->module('Auth');
+		$this->auth->checkLogin();
 	}
 }

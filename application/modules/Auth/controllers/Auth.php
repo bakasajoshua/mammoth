@@ -89,6 +89,12 @@ class Auth extends MX_Controller {
         redirect('/');
     }
 
+    public function checkLogin(){
+		if($this->session->userdata('userid') == ""){
+			redirect('Auth/','refresh');
+		}
+	}
+
 
     public function clear(){
 	    $setting_session = array(
@@ -103,7 +109,7 @@ class Auth extends MX_Controller {
 
 	    $this->session->set_userdata($setting_session);
 
-     }
+    }
 
 
 
