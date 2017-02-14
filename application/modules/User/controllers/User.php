@@ -59,6 +59,8 @@ class User extends MY_Controller {
 					$status_text,
 					''
 				];
+
+				$counter++;
 			}
 		}
 
@@ -69,6 +71,104 @@ class User extends MY_Controller {
 		return $this->table->generate($tableData);
 	}
 
+	function add(){
+		$this->assets
+				->addCss('plugins/select2/select2.min.css')
+				->addJs('plugins/select2/select2.full.min.js')
+				->setJavascript('User/user_js');
+		$this->template
+					->setPartial('User/user_details')
+					->frontEndTemplate();
+	}
+
+	function completeReg(){
+		if ($this->input->post()) {
+			$this->load->helper('string');
+			$this->load->library('Hash');
+
+			$fullname = $this->input->post('user_fullname');
+			$email = $this->input->post('user_emailaddress');
+			$department = $this->M_User->findDepartmentByUUID($this->input->post('department'))->deptid;
+			$access_level = $this->M_User->findAccessLevelByUUID($this->input->post('access_level'))->accessid;
+
+			// Generate random password
+			$randomPassword = random_string('alnum', 6);
+			$hashedPassword = $this->hash->hashPassword($randomPassword);
+
+			// Check whether email exists in db
+			$user = $this->M_User->getUserByEmail($email);
+			if (!$user) {
+				$user = new StdClass;
+				$user->uuid = $this->hash->createUUID();
+				$user->fulname = $fullname;
+				$user->email = $email;
+				$user->password = $hashedPassword;
+				$user->access_level = $access_level;
+				$user->status = 1;
+				$user->dept_id = $department;
+
+				$this->M_User->addUser($user);
+
+				// Send email
+				$data = [
+					'name'	=>	$fullname,
+					'password'	=>	$randomPassword,
+					'emailaddress'	=>	$email
+				];
+
+				$email_view = $this->load->view('Template/account_created_v', $data, TRUE);
+				$subject = "Report Mammoth Account";
+
+				$this->load->library('SendgridLib');
+				$this->sendgridlib->sendMail($subject, ['name'	=>	$fullname, 'email'	=>	$email], $email_view);
+
+				redirect('User','refresh');
+			}else{
+				redirect('User/add','refresh');
+			}
+		}else{
+			redirect('User/add','refresh');
+		}
+	}
+
+	function testMail(){
+		$this->load->library('SendgridLib');
+
+		$this->sendgridlib->sendMail();
+	}
+
+	// Ajax Data
+	public function getDepartments(){
+		$departments = $this->M_User->getDepartments();
+
+		$department_data = [];
+		if ($departments) {
+			foreach ($departments as $department) {
+				$department_data[] = [
+					'id'	=>	$department->uuid,
+					'text'	=>	$department->desc
+				];
+			}
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($department_data));
+	}
+
+	public function getAccessLevels(){
+		$access_levels = $this->M_User->getAccessLevels();
+
+		$access_data = [];
+		if ($access_levels) {
+			foreach ($access_levels as $access) {
+				$access_data[] = [
+					'id'	=>	$access->uuid,
+					'text'	=>	$access->desc
+				];
+			}
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($access_data));
+	}
 }
 
 /* End of file User.php */

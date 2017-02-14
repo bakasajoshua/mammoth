@@ -22,8 +22,7 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Sign in to start your session</p>
-
-    <form role="form" enctype="multipart/form-data" method="POST" action="<?php echo base_url() . 'auth/userLogin'?>" >
+    <?= @form_open('auth/userLogin'); ?>
       <div class="form-group has-feedback">
         <input type="email" class="form-control" placeholder="Email" name="email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>

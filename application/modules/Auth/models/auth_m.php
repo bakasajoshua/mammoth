@@ -33,22 +33,10 @@ class Auth_m extends CI_Model {
     {
         $email = $this->input->post('email');
 
-         //echo '<pre>';print_r($username);echo'</pre>';die;
-        $sql = "SELECT * FROM users WHERE email = '". $email ."' LIMIT 1";
+        $this->db->where('email', $email);
+        $query = $this->db->get('users');
 
-        $result = $this->db->query($sql);
-        
-        // $row = $result->row();
-        
-        if($result->num_rows() == 1){
-         	return true;
-         }else{
-         	return false;
-         }
-
-
-       
-       //print_r($this->session->all_userdata());
+        return $query->row();
     }
 
     public function checkLogin(){

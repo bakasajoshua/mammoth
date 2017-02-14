@@ -17,6 +17,45 @@ class M_User extends CI_Model {
 
 		return $query->result();
 	}
+
+	function getDepartments(){
+		$query = $this->db->get('department');
+
+		return $query->result();
+	}
+
+	function getAccessLevels(){
+		$this->db->where('desc !=', 'Admin');
+		$query = $this->db->get('access_level');
+
+		return $query->result();
+	}
+
+	function findDepartmentByUUID($uuid)
+	{
+		$this->db->where('uuid', $uuid);
+		$query = $this->db->get('department');
+
+		return $query->row();
+	}
+
+	function findAccessLevelByUUID($uuid){
+		$this->db->where('uuid', $uuid);
+		$query = $this->db->get('access_level');
+
+		return $query->row();
+	}
+
+	function getUserByEmail($email){
+		$this->db->where('email', $email);
+		$query = $this->db->get('users');
+
+		return $query->row();
+	}
+
+	function addUser($user){
+		return $this->db->insert('users', $user);
+	}
 }
 
 /* End of file M_User.php */
