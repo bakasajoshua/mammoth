@@ -13,6 +13,17 @@
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>dist/css/AdminLTE.min.css">
   <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>dist/css/skins/_all-skins.min.css">
   <?= @$page_css; ?>
+  <!-- To be removed once we sort this with Chris -->
+  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/froala_editor.css">
+  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/froala_style.css">
+  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/code_view.css">
+  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/image_manager.css">
+  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/image.css">
+  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/table.css">
+  <link rel="stylesheet" href="<?= @$this->config->item('assets_url'); ?>plugins/froala/css/plugins/video.css">
+
+  <!-- jQuery 2.2.3 -->
+  <script src="<?= @$this->config->item('assets_url'); ?>plugins/jQuery/jquery-2.2.3.min.js"></script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <!-- Site wrapper -->
@@ -123,13 +134,13 @@
           <!-- User Account: style can be found in dropdown.less -->
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <img src="<?= @$this->config->item('assets_url'); ?>dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header">
-                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img src="<?= @$this->config->item('assets_url'); ?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
                   Alexander Pierce - Web Developer
@@ -180,7 +191,7 @@
       <!-- Sidebar user panel -->
       <div class="user-panel">
         <div class="pull-left image">
-          <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+          <img src="<?= @$this->config->item('assets_url'); ?>dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
         </div>
         <div class="pull-left info">
           <p>Alexander Pierce</p>
@@ -601,8 +612,6 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 2.2.3 -->
-<script src="<?= @$this->config->item('assets_url'); ?>plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="<?= @$this->config->item('assets_url'); ?>bootstrap/js/bootstrap.min.js"></script>
 <!-- SlimScroll -->
@@ -612,5 +621,6 @@
 <!-- AdminLTE App -->
 <script src="<?= @$this->config->item('assets_url'); ?>dist/js/app.min.js"></script>
 <?= @$page_js; ?>
+
 </body>
 </html>

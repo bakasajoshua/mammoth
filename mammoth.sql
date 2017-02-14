@@ -96,6 +96,21 @@ CREATE TABLE IF NOT EXISTS `users` (
   PRIMARY KEY (`userid`,`uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+
+-- View that helps me simply merge the report to the department
+CREATE OR REPLACE VIEW `view_reports` AS 
+SELECT 
+`r`.`repid`, 
+`r`.`uuid`, 
+`r`.`title`,
+`r`.`desc`,
+`r`.`userid` AS `created_by`, 
+`r`.`status`,
+`u`.`fulname`, 
+`u`.`email`,
+`u`.`dept_id`
+FROM `reports` `r` LEFT JOIN `users` `u` ON `r`.`userid` = `u`.`userid`;
+
 -- Dumping data for table report_mammoth.users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
