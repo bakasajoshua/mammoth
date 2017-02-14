@@ -143,7 +143,7 @@ class Auth_m extends CI_Model {
 
       $this->session->set_userdata($setting_session);
 
-      //echo "<pre>";print_r($setting_session);die();
+      echo "<pre>";print_r($setting_session);die();
       
       $details = $this->session->all_userdata();
        // $sql = "INSERT INTO usersessions (`session_id`,`ip_address`,`user_agent`,`last_activity`,`user_data`,`userid`,`fulname`,`email`,`access_level`,`dept_id`,`logged_in`) 
