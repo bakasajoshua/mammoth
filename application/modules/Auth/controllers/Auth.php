@@ -39,11 +39,27 @@ class Auth extends MX_Controller {
 	public function logout()
     {
         $sess_log = $this->session->userdata('userid');
-        $log = $this->auth_m->logoutuser($sess_log);
+        $log = $this->auth_m->logoutadmin($sess_log);
 
         $this->session->sess_destroy();
-        redirect(base_url().'Auth');
+        redirect('/');
     }
+
+
+    public function clear(){
+	    $setting_session = array(
+	                   'userid'       => "" , 
+	                   'uuid'       => "" , 
+	                   'fulname'    => "" ,
+	                   'email'    => "" ,
+	                   'access_level'    => "" ,
+	                   'dept_id'   => "" ,
+	                   'logged_in'  => ""
+	    ); 
+
+	    $this->session->set_userdata($setting_session);
+
+     }
 
 
 

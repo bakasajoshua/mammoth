@@ -9,10 +9,23 @@ class Auth_m extends CI_Model {
 
 
     public function logoutadmin($sess_log){
-         $data['status'] = 0;
+	    $setting_session = array(
+	                   'userid'       => "" , 
+	                   'uuid'       => "" , 
+	                   'fulname'    => "" ,
+	                   'email'    => "" ,
+	                   'access_level'    => "" ,
+	                   'dept_id'   => "" ,
+	                   'logged_in'  => ""
+	    ); 
 
-         $this->db->where('userid', $sess_log);
-         $update = $this->db->update('users', $data);
+	    $this->session->set_userdata($setting_session);
+
+
+	    //$data['status'] = 0;
+
+	    // $this->db->where('userid', $sess_log);
+	    // $update = $this->db->update('users', $data);
      }
 
 
@@ -39,7 +52,11 @@ class Auth_m extends CI_Model {
     }
 
     public function checkLogin(){
-		//True or false
+		if($this->session->userdata('userid') != ""){
+		     return true;
+		}else{
+		     return false;
+		}
     }
 
 
@@ -48,11 +65,11 @@ class Auth_m extends CI_Model {
         $email = $this->input->post('email');
         $password = $this->input->post('password'); 
 
-        // $sessioncheck = $this->auth->checkLogin();
+        $sessioncheck = $this->checkLogin();
 
-        // if($sessioncheck){
-        // 	echo "Session is already in use... Log out first";die();
-        // }else{
+        if($sessioncheck){
+        	echo "Session is already in use... Log out first";die();
+        }else{
 
 		        $sql = "SELECT * FROM users WHERE email = '". $email ."' LIMIT 1";
 
@@ -102,6 +119,8 @@ class Auth_m extends CI_Model {
 		         }else{
 		          return "unknown_email";
 		         }
+
+		     }
         
     }
 
