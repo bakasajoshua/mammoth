@@ -37,9 +37,14 @@ class Template extends MX_Controller {
 
 		$data['page_css'] = $this->assets->css;
 		$data['page_js'] = $this->assets->js;
+		$this->load->module('User');
+		$user = $this->M_User->findUserByUUID($this->session->userdata('uuid'));
+		$data['userDetails'] = $user;
 
 		$data['pagetitle'] = $this->pageTitle;
 		$data['pagedescription'] = $this->pageDescription;
+
+		$data['menu']	=	$this->createSideBar();
 
 		$data['partial'] = $this->contentView;
 		$data['partialData'] = $this->contentViewData;
@@ -64,52 +69,36 @@ class Template extends MX_Controller {
 			'dashboard'	=>	[
 				'icon'	=>	'fa fa-tachometer',
 				'text'	=>	'Dashboard',
-				'link'	=>	'Backend/Dashboard/'
+				'link'	=>	'Dashboard/',
+				'allowed'	=>	[1]
 			],
-			'events' => [
-				'icon'	=>	'fa fa-calendar',
-				'text'	=>	'Events',
-				'link'	=>	'Backend/Events/'
+			'Reports' => [
+				'icon'	=>	'fa fa-file-o',
+				'text'	=>	'Report Management',
+				'link'	=>	'Manager/',
+				'allowed'	=>	[1, 2]
 			],
 			'tickets'	=>	[
 				'icon'	=>	'fa fa-ticket',
-				'text'	=>	'Tickets',
-				'link'	=>	'Backend/Tickets/eventlist'
-			],
-			'complementaryTickets'	=>	[
-				'icon'	=>	'fa fa-thumbs-up',
-				'text'	=>	'Complementary Tickets',
-				'link'	=>	'Backend/Tickets/complementaryTickets'
-			],
-			'ticketrequests'	=>	[
-				'icon'	=>	'fa fa-hand-pointer-o',
-				'text'	=>	'Ticket Requests',
-				'link'	=>	'Backend/TicketRequests'
-			],
-			'contact'	=>	[
-				'icon'	=>	'fa fa-phone',
-				'text'	=>	'Contact Requests',
-				'link'	=>	'Backend/Contact'
-			],
-			'users'		=>	[
-				'icon'	=>	'fa fa-users',
-				'text'	=>	'Registered Customers',
-				'link'	=>	'Backend/Users'
+				'text'	=>	'Report Content Management',
+				'link'	=>	'Members',
+				'allowed'	=>	[3]
 			],
 			'logout'	=>	[
 				'icon'	=>	'fa fa-sign-out',
 				'text'	=>	'Log Out',
-				'link'	=>	'Auth/logout'
+				'link'	=>	'Auth/logout',
+				'allowed'	=>	[1, 2, 3]
 			]
 		];
 
 		if (count($menus) > 0) {
 			foreach ($menus as $key => $item) {
 				$active = "";
-				if ($key == strtolower($class)) {
-					$active = "class = 'active'";
+				if (in_array($this->session->userdata('access_level'), $item['allowed'])) {
+					$menu_list .= "<li {$active}><a href='".base_url()."{$item['link']}'><i class='{$item['icon']}'></i> <span>{$item['text']}</span></a></li>";
 				}
-				$menu_list .= "<li {$active}><a href='".base_url()."{$item['link']}'><i class='{$item['icon']}'></i> <span>{$item['text']}</span></a></li>";
+				
 			}
 		}
 
