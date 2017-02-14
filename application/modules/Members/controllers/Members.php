@@ -10,9 +10,6 @@ class Members extends MY_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$data = array('user' => 3,
-						'isLoggedIn' => true);
-		$this->session->set_userdata($data);
 		$this->load->model('members_model');
 		$this->members_model->set_member_department();
 	}

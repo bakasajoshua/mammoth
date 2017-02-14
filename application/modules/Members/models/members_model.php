@@ -16,7 +16,7 @@ class Members_model extends CI_Model
 
 	function set_member_department()
 	{
-		$this->db->where('userid', $this->session->userdata('user'));
+		$this->db->where('userid', $this->session->userdata('userid'));
 		$res = $this->db->get('users')->result_array();
 		$this->department = $res[0]['dept_id'];
 
@@ -28,7 +28,7 @@ class Members_model extends CI_Model
 from view_reports vr left join report_content r on vr.repid = r.repid WHERE vr.`status` = 'active' and vr.dept_id = '".$this->department."'";
 	// echo $query;die();
 		$result = $this->db->query($query)->result_array();
-		// echo "<pre>";print_r($result);die();
+		echo "<pre>";print_r($result);die();
 		if ($result) {
 			$count = 1;
 			$tableData = '';
@@ -74,11 +74,11 @@ from view_reports vr left join report_content r on vr.repid = r.repid WHERE vr.`
 
 	function get_report_details($data=null)
 	{
-		$this->db->where(['repid' => $data, 'userid' => $this->session->userdata('user')]);
+		$this->db->where(['repid' => $data, 'userid' => $this->session->userdata('userid')]);
 		$result = $this->db->get('report_content')->result_array();
 		// echo "<pre>";print_r($result);die();
 		if ($result) {
-			$result = $this->db->query("select * from view_reports vr left join report_content r on vr.repid = r.repid where vr.repid ='".$data."' and r.userid ='".$this->session->userdata('user')."'")->result_array();
+			$result = $this->db->query("select * from view_reports vr left join report_content r on vr.repid = r.repid where vr.repid ='".$data."' and r.userid ='".$this->session->userdata('userid')."'")->result_array();
 			return ["repID"=>$result[0]['repid'], "title"=>$result[0]['title'], "description"=>$result[0]['title'], "name"=>$result[0]['fulname'], "content"=>$result[0]['content']];
 		} else {
 			$this->db->where(['repid' => $data]);
@@ -93,7 +93,7 @@ from view_reports vr left join report_content r on vr.repid = r.repid WHERE vr.`
 		$this->load->library('Hash');
 		$insert_data = array('uuid' => $this->hash->createUUID(),
 							'repid' => $id,
-							'userid' => $this->session->userdata('user'),
+							'userid' => $this->session->userdata('userid'),
 							'status' => 'ongoing');
 
 		$this->db->trans_start();
@@ -108,7 +108,7 @@ from view_reports vr left join report_content r on vr.repid = r.repid WHERE vr.`
 	{
 		$update_data = array('content' => $data[1]['value'],
 							'status' => 'ongoing');
-		$this->db->where(['repid'=> $data[0]['value'], 'userid'=>$this->session->userdata('user')]);
+		$this->db->where(['repid'=> $data[0]['value'], 'userid'=>$this->session->userdata('userid')]);
 
 		$this->db->trans_start();
 	    $update = $this->db->update('report_content', $update_data);
@@ -121,7 +121,7 @@ from view_reports vr left join report_content r on vr.repid = r.repid WHERE vr.`
 	{
 		$update_data = array('content' => $data[1]['value'],
 							'status' => 'pending');
-		$this->db->where(['repid'=> $data[0]['value'], 'userid'=>$this->session->userdata('user')]);
+		$this->db->where(['repid'=> $data[0]['value'], 'userid'=>$this->session->userdata('userid')]);
 
 		$this->db->trans_start();
 	    $update = $this->db->update('report_content', $update_data);
