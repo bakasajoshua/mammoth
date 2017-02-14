@@ -20,7 +20,6 @@ class Dashboard extends MY_Controller {
 	public function manager(){
 		$data = [];
 
-
 		$this->template
 		     	->setPageTitle('Manager')
 				->setPartial('Dashboard/dashboard_v', $data)
@@ -30,8 +29,6 @@ class Dashboard extends MY_Controller {
 	public function admin(){
 		$data = [];
 
-
-
 		$this->template
 				->setPageTitle('Admin')
 				->setPartial('Dashboard/dashboard_v', $data)
@@ -40,7 +37,6 @@ class Dashboard extends MY_Controller {
 
 	public function member(){
 		$data = [];
-
 
 		$this->template
 				->setPageTitle('Member')

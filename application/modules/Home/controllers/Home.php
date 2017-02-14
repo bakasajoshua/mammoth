@@ -10,13 +10,9 @@ class Home extends MY_Controller {
 	{
 		// $this->assets->addCss('bootstrap/css/bootstrap.min.css');
 		// $this->assets->addCss('dist/css/AdminLTE.min.css');
-		// $this->assets->addCss('dist/css/skins/_all-skins.min.css');
+		// $this->assets->addJs('custom/custom.js');
 		$this->load->library('Hash');
-<<<<<<< HEAD
-		echo $this->hash->createUUID();die();
-=======
-		echo($this->hash->hashPassword("12345"));die();
->>>>>>> 7fc82fab7dd883485346cce5b70078b95729ce73
+		// echo($this->hash->hashPassword("12345"));die();
 		$this->template
 				->setPartial('home_v')
 				->frontEndTemplate();

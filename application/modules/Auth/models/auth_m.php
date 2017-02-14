@@ -47,14 +47,6 @@ class Auth_m extends CI_Model {
         return $query->row();
     }
 
-    public function checkLogin(){
-		if($this->session->userdata('userid') != ""){
-		     return true;
-		}else{
-		     return false;
-		}
-    }
-
 
 	public function check_user_authentic()
     {
